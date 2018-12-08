@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>¿Qué veo hoy?</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="header-title center">
+        <div class="container">
+          <h1>¿Qué veo hoy?</h1>
+          <div class="pregunta">
+            <!-- Primer paso del recomendador -->
+            <div class="paso-1" style="display:none">
+              <a class='boton-estreno btn-film btn-round' role='button'>Estreno</a>
+              <a class='boton-clasico btn-film btn-round' role='button'>Clásico</a>
+              <a class='boton-bien-puntuada btn-film btn-round' role='button'>Bien puntuada</a>
+              <a class='boton-cualquiera btn-film btn-round'role='button'>Cualquiera</a>
+            </div>
+            <!-- Segundo paso del recomendador (botones) -->
+            <div class="paso-2-links">
+              <a class='pregunta btn-film btn-round' genero='Comedy' role='button'>Comedia</a>
+              <a class='pregunta btn-film btn-round' genero='Action' role='button'>Acción</a>
+              <a class='pregunta btn-film btn-round' genero='Drama' role='button'>Drama</a>
+              <a class='pregunta btn-film btn-round' genero='Horror' role='button'>Terror</a>
+              <a class='pregunta btn-film btn-round' genero='Adventure' role='button'>Aventura</a>
+              <a class='pregunta btn-film btn-round' genero='Animation' role='button'>Animada</a>
+              <a class='pregunta btn-film btn-round' genero='Biography' role='button'>Biografía</a>
+              <a class='pregunta btn-film btn-round' genero='' role='button'>Cualquiera</a>
+            </div>
+            <!-- Segundo paso del recomendador (dropdown) en dispositivos más pequeños-->
+            <div class="paso-2">
+              <select name="" id="dropdownGenero">
+                <option readonly>Género</option>
+                <option value="" class="pregunta" genero='Comedy'>Comedia</option>
+                <option value="" class="pregunta" genero='Action'>Acción</option>
+                <option value="" class="pregunta" genero='Drama'>Drama</option>
+                <option value="" class="pregunta" genero='Horror'>Terror</option>
+                <option value="" class="pregunta" genero='Adventure'>Aventura</option>
+                <option value="" class="pregunta" genero='Animation'>Animada</option>
+                <option value="" class="pregunta" genero='Biography'>Biografía</option>
+                <option value="" class="pregunta" genero=''>Cualquiera</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Aca a se va a mostrar la película recomendada -->
+      <div class="datos-pelicula" style="display:none;">
+        <div class="container">
+          <div class="flex"> <div class="left-col"><img class="imagen img-thumbnail"></div>
+          <div class="datos-pelicula-info flex flex-column justify-between">
+            <div>
+              <h1 class="titulo bb"></h1>
+              <p class="trama"></p>
+              <span><b>Genero: </b><span class ="genero"> </span> </span></div>
+              <div class="botones-resultado">
+                <button class='ver-mas btn-film btn-pill btn-light-blue' role='button'>Ver mas</button>
+                <button class='otra-opcion btn-film btn-pill btn-light-blue' role='button'>Otra opcion</button>
+                <button class='reiniciar btn-film btn-pill btn-light-blue' role='button'>Volver</button>
+              </div>
+              <a class="close" href="javascript:;"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alerta-recomendacion alert alert-success center" style="display:none;">
+        <p><strong>Lo siento, </strong>no hay más películas para recomendar.</p>
+        <a class='alert-link btn-film btn-pill btn-light-blue'>Volver</a>
+      </div>
+      <!-- Filtros -->
+      <div class="search-panel">
+        <div class="container">
+          <div id="filter-panel" class="filter-panel">
+            <form class="flex justify-center" role="form">
+              <div class="w-100-ns">
+                <label class="filter-col" for="pref-search">Titulo</label>
+                <input type="text" class="titulo-busqueda">
+              </div>
+              <div class="w-100-ns">
+                <label class="filter-col dropdown" for="pref-search">Genero</label>
+                <select class="genero-select">
+                  <option value='0'>Todos</option>
+                </select>
+              </div>
+              <div class="w-100-ns">
+                <label class="filter-col" for="pref-search">Año de estreno</label>
+                <input type="text" class="anio-busqueda">
+              </div>
+              <div class="w-100-ns">
+                <label class="filter-col dropdown" for="pref-orderby">Ordenar por</label>
+                <select class="orden-select">
+                  <option value="titulo-ASC">Titulo</option>
+                  <option value="anio-DESC">Mas nuevas</option>
+                  <option value="puntuacion-DESC">Mejores puntuadas</option>
+                </select>
+              </div>
+              <div class="w-100-ns">
+                <button type="button" class="buscar btn-film btn-round">Buscar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Ejemplo de película que se va a clonar y repetir para mostrar cada película -->
+      <div class="ejemplo-pelicula item" style="display: none;">
+        <div class='thumbnail'> <img class="imagen">
+          <div class="caption boton-ver-mas" role="button">
+            <h3 class="titulo"></h3>
+          </div>
+        </div>
+      </div>
+      <div class="main-container-grid">
+        <!-- Alerta que se va a mostrar si no se encuentra ninguna película cuando se realiza la búsqueda -->
+        <div class="alerta-resultados alert alert-info center" style="display:none;" role="alert"> No se encontraron resultados.</div>
+        <!-- Contenedor donde se van a mostrar todas las películas -->
+        <div class="contenedor-peliculas"></div>
+      </div>
+      <!-- Ejemplo de un botón de paginación que se va a clonar y repetir según la cantidad de páginas que se muestren -->
+      <button type='button' style="display:none" class='ejemplo-boton boton-pagina btn-film'></button>
+      <!-- Contenedor de botones de paginación -->
+      <div class="btn-group center grid-pager" role="group"> </div>
+      <script src="../js/jquery.js"></script>
+      <script src="../js/recomendaciones.js"></script>
+      <script src="../js/peliculas.js"></script>
+    </body>
+  </html>
